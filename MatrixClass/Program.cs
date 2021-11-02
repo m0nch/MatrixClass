@@ -13,10 +13,10 @@ namespace MatrixClass
             arrManager._height = int.Parse(Console.ReadLine());
             
             Console.WriteLine("Please enter width for array: ");
-            int width = int.Parse(Console.ReadLine());            
+            arrManager._width = int.Parse(Console.ReadLine());            
 
             Console.WriteLine("Enter MAX value for random number: ");
-            int rndMax = int.Parse(Console.ReadLine());
+            arrManager._rndMax = int.Parse(Console.ReadLine());
 
             int[,] matrix = arrManager.CreateArray();
             prntManager.Print(matrix);
@@ -80,6 +80,70 @@ namespace MatrixClass
                 }
             }
             return matrix;
+        }
+
+        /// <summary>
+        /// Swaps a given two elements of the given two-dimensional Int32 array
+        /// </summary>
+        /// <param name="array">given any array</param>
+        /// <returns>returns new two dimensional Int32 array with swapped elements</returns>
+        public int[,] Swap(int[,] array)
+        {
+            int[,] arr = (int[,])array.Clone();
+            int el1IndexOne = GetIndexOne(arr, _element1);
+            int el1IndexTwo = GetIndexTwo(arr, _element1);
+            int el2IndexOne = GetIndexOne(arr, _element2);
+            int el2IndexTwo = GetIndexTwo(arr, _element2);
+
+            int temp = arr[el1IndexOne, el1IndexTwo];
+            arr[el1IndexOne, el1IndexTwo] = arr[el2IndexOne, el2IndexTwo];
+            arr[el2IndexOne, el2IndexTwo] = temp;
+
+            return arr;
+        }
+
+        /// <summary>
+        /// Gets the first index of an element of the given two-dimensional Int32 array
+        /// </summary>
+        /// <param name="array">given any array</param>
+        /// <param name="element">given any Int32 value</param>
+        /// <returns>returns Int32 value</returns>
+        public int GetIndexOne(int[,] array, int element)
+        {
+            int index = 0;
+            for (int i = 0; i < array.GetLength(0); i++)
+            {
+                for (int j = 0; j < array.GetLength(1); j++)
+                {
+                    if (array[i, j] == element)
+                    {
+                        index = i;
+                    }
+                }
+            }
+            return index;
+        }
+
+        /// <summary>
+        /// Gets the second index of an element of the given two-dimensional Int32 array
+        /// </summary>
+        /// <param name="array">given any array</param>
+        /// <param name="element">given any Int32 value</param>
+        /// <returns>returns Int32 value</returns>
+        public int GetIndexTwo(int[,] array, int element)
+        {
+            int index = 0;
+            for (int i = 0; i < array.GetLength(0); i++)
+            {
+                for (int j = 0; j < array.GetLength(1); j++)
+                {
+                    if (array[i, j] == element)
+                    {
+                        index = j;
+                    }
+                }
+            }
+            return index;
         }
 
         /// <summary>
@@ -171,69 +235,7 @@ namespace MatrixClass
             return min;
         }
 
-        /// <summary>
-        /// Gets the first index of an element of the given two-dimensional Int32 array
-        /// </summary>
-        /// <param name="array">given any array</param>
-        /// <param name="element">given any Int32 value</param>
-        /// <returns>returns Int32 value</returns>
-        public int GetIndexOne(int[,] array, int element)
-        {
-            int index = 0;
-            for (int i = 0; i < array.GetLength(0); i++)
-            {
-                for (int j = 0; j < array.GetLength(1); j++)
-                {
-                    if (array[i, j] == element)
-                    {
-                        index = i;
-                    }
-                }
-            }
-            return index;
-        }
 
-        /// <summary>
-        /// Gets the second index of an element of the given two-dimensional Int32 array
-        /// </summary>
-        /// <param name="array">given any array</param>
-        /// <param name="element">given any Int32 value</param>
-        /// <returns>returns Int32 value</returns>
-        public int GetIndexTwo(int[,] array, int element)
-        {
-            int index = 0;
-            for (int i = 0; i < array.GetLength(0); i++)
-            {
-                for (int j = 0; j < array.GetLength(1); j++)
-                {
-                    if (array[i, j] == element)
-                    {
-                        index = j;
-                    }
-                }
-            }
-            return index;
-        }
-
-        /// <summary>
-        /// Swaps a given two elements of the given two-dimensional Int32 array
-        /// </summary>
-        /// <param name="array">given any array</param>
-        /// <returns>returns new two dimensional Int32 array with swapped elements</returns>
-        public int[,] Swap(int[,] array)
-        {
-            int[,] arr = (int[,])array.Clone();
-            int el1IndexOne = GetIndexOne(arr, _element1);
-            int el1IndexTwo = GetIndexTwo(arr, _element1);
-            int el2IndexOne = GetIndexOne(arr, _element2);
-            int el2IndexTwo = GetIndexTwo(arr, _element2);
-
-            int temp = arr[el1IndexOne, el1IndexTwo];
-            arr[el1IndexOne, el1IndexTwo] = arr[el2IndexOne, el2IndexTwo];
-            arr[el2IndexOne, el2IndexTwo] = temp;
-
-            return arr;
-        }
     }
 
     public class PrintManager
