@@ -20,27 +20,33 @@ namespace MatrixClass
 
             int[,] matrix = arrManager.CreateArray();
             prntManager.Print(matrix);
-            Console.WriteLine(string.Empty);
+            Console.WriteLine();
             int[] diagonal = arrManager.GetDiagonal(matrix);
             if (diagonal != null)
             {
                 prntManager.Print(diagonal);
             }
-            Console.WriteLine(string.Empty);
-
-            prntManager.Print("Maximum of two dimension array is ", arrManager.GetMax(matrix));
-            prntManager.Print("Minimum of two dimension array is ", arrManager.GetMin(matrix));
-
-            if (diagonal != null)
-            {
-                prntManager.Print("Maximum of one dimension array (diagonal) is ", arrManager.GetMax(diagonal));
-            }
-            prntManager.Print("Maximim element indexes is ", arrManager.GetIndexOne(matrix, arrManager.GetMax(matrix)), arrManager.GetIndexTwo(matrix, arrManager.GetMax(matrix)));
-            prntManager.Print("Minimum element indexes is ", arrManager.GetIndexOne(matrix, arrManager.GetMin(matrix)), arrManager.GetIndexTwo(matrix, arrManager.GetMin(matrix)));
-            //Console.WriteLine($"Maximum is {GetMax(matrix)}");
+            Console.WriteLine();
 
             arrManager._element1 = arrManager.GetMax(matrix);
             arrManager._element2 = arrManager.GetMin(matrix);
+
+            prntManager.Print("Maximum of two dimension array is ", arrManager._element1);
+            prntManager.Print("Minimum of two dimension array is ", arrManager._element2);
+
+            int maxDiagonal = arrManager.GetMax(diagonal);
+            if (diagonal != null)
+            {
+                prntManager.Print("Maximum of one dimension array (diagonal) is ", maxDiagonal);
+            }
+
+            int ind1 = arrManager.GetIndexOne(matrix, arrManager._element1);
+            int ind2 = arrManager.GetIndexTwo(matrix, arrManager._element1);
+            prntManager.Print("Maximim element indexes is ", ind1, ind2);
+
+            ind1 = arrManager.GetIndexOne(matrix, arrManager._element2);
+            ind2 = arrManager.GetIndexTwo(matrix, arrManager._element2);
+            prntManager.Print("Minimum element indexes is ", ind1, ind2);
 
             int[,] arr = arrManager.Swap(matrix);
             prntManager.Print(arr);
