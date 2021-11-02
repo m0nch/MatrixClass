@@ -7,39 +7,39 @@ namespace MatrixClass
         static void Main(string[] args)
         {
             Console.WriteLine("Please enter height for array: ");
-            int width = int.Parse(Console.ReadLine());
-
-            Console.WriteLine("Please enter width for array: ");
             int height = int.Parse(Console.ReadLine());
+            
+            Console.WriteLine("Please enter width for array: ");
+            int width = int.Parse(Console.ReadLine());            
 
             Console.WriteLine("Enter MAX value for random number: ");
             int rndMax = int.Parse(Console.ReadLine());
 
-            ArrayManager am = new ArrayManager();
-            PrintManager pm = new PrintManager();
-            int[,] matrix = am.CreateArray(height, width, rndMax);
-            pm.Print(matrix);
+            ArrayManager arrManager = new ArrayManager();
+            PrintManager prntManager = new PrintManager();
+            int[,] matrix = arrManager.CreateArray(height, width, rndMax);
+            prntManager.Print(matrix);
             Console.WriteLine(string.Empty);
-            int[] diagonal = am.GetDiagonal(matrix);
+            int[] diagonal = arrManager.GetDiagonal(matrix);
             if (diagonal != null)
             {
-                pm.Print(diagonal);
+                prntManager.Print(diagonal);
             }
             Console.WriteLine(string.Empty);
 
-            pm.Print("Maximum of two dimension array is ", am.GetMax(matrix));
-            pm.Print("Minimum of two dimension array is ", am.GetMin(matrix));
+            prntManager.Print("Maximum of two dimension array is ", arrManager.GetMax(matrix));
+            prntManager.Print("Minimum of two dimension array is ", arrManager.GetMin(matrix));
 
             if (diagonal != null)
             {
-                pm.Print("Maximum of one dimension array (diagonal) is ", am.GetMax(diagonal));
+                prntManager.Print("Maximum of one dimension array (diagonal) is ", arrManager.GetMax(diagonal));
             }
-            pm.Print("Maximim element indexes is ", am.GetIndexOfMaxElement(matrix));
-            pm.Print("Minimum element indexes is ", am.GetIndexOfMinElement(matrix));
+            prntManager.Print("Maximim element indexes is ", arrManager.GetIndexOne(matrix, arrManager.GetMax(matrix)), arrManager.GetIndexTwo(matrix, arrManager.GetMax(matrix)));
+            prntManager.Print("Minimum element indexes is ", arrManager.GetIndexOne(matrix, arrManager.GetMin(matrix)), arrManager.GetIndexTwo(matrix, arrManager.GetMin(matrix)));
             //Console.WriteLine($"Maximum is {GetMax(matrix)}");
 
-            am.SwapMaxWithMin(am.GetIndexOfMaxElement(matrix), am.GetIndexOfMinElement(matrix), matrix);
-            pm.Print(matrix);
+            //arrManager.SwapMaxWithMin(arrManager.GetIndexOfMaxElement(matrix), arrManager.GetIndexOfMinElement(matrix), matrix);
+            //prntManager.Print(matrix);
             Console.ReadKey();
 
         }
@@ -52,7 +52,7 @@ namespace MatrixClass
             /// <param name="height">Second dimension of array</param>
             /// <param name="rndMax">MAX value for random elements</param>
             /// <returns></returns>
-            public int[,] CreateArray(int height, int width, int rndMax)
+            public int[,] CreateArray(int width, int height, int rndMax)
             {
                 Random rnd = new Random();
                 int[,] matrix = new int[width, height];
@@ -154,56 +154,102 @@ namespace MatrixClass
                 }
                 return min;
             }
+
+            /// <summary>
+            /// Gets the first index of an element of the given two-dimensional array
+            /// </summary>
+            /// <param name="array">given two-dimensional array</param>
+            /// <returns>returns Int32 number</returns>
+            public int GetIndexOne(int[,] array, int element)
+            {
+                int index = 0;
+                for (int i = 0; i < array.GetLength(0); i++)
+                {
+                    for (int j = 0; j < array.GetLength(1); j++)
+                    {
+                        if (array[i, j] == element)
+                        {
+                            index = i;
+                        }
+                    }
+                }
+                return index;
+            }
+
+            /// <summary>
+            /// Gets the second index of an element of the given two-dimensional array
+            /// </summary>
+            /// <param name="array">given two-dimensional array</param>
+            /// <returns>returns Int32 number</returns>
+            public int GetIndexTwo(int[,] array, int element)
+            {
+                int index = 0;
+                for (int i = 0; i < array.GetLength(0); i++)
+                {
+                    for (int j = 0; j < array.GetLength(1); j++)
+                    {
+                        if (array[i, j] == element)
+                        {
+                            index = j;
+                        }
+                    }
+                }
+                return index;
+            }
+
+
+
+
             /// <summary>
             /// Gets an indexes of a maximum element of the given array
             /// </summary>
             /// <param name="array">given two-dimensional square array</param>
             /// <returns>returns indexes of a maximum element as a one-dimensional array</returns>
-            public int[] GetIndexOfMaxElement(int[,] array)  //միգուցե ստանա էլեմենտ, ոչ թե զանգված, բայց էլեմենտն int-ա, ինդեքս չեմ կարող ստանալ
-            {
-                int index1 = 0;
-                int index2 = 0;
-                int max = array[0, 0];
-                for (int i = 0; i < array.GetLength(0); i++)
-                {
-                    for (int j = 0; j < array.GetLength(1); j++)
-                    {
-                        if (array[i, j] > max)
-                        {
-                            max = array[i, j];
-                            index1 = i;
-                            index2 = j;
-                        }
-                    }
-                }
-                int[] index = new int[] { index1, index2 };
-                return index;
-            }
+            //public int[] GetIndexOfMaxElement(int[,] array)  //միգուցե ստանա էլեմենտ, ոչ թե զանգված, բայց էլեմենտն int-ա, ինդեքս չեմ կարող ստանալ
+            //{
+            //    int index1 = 0;
+            //    int index2 = 0;
+            //    int max = array[0, 0];
+            //    for (int i = 0; i < array.GetLength(0); i++)
+            //    {
+            //        for (int j = 0; j < array.GetLength(1); j++)
+            //        {
+            //            if (array[i, j] > max)
+            //            {
+            //                max = array[i, j];
+            //                index1 = i;
+            //                index2 = j;
+            //            }
+            //        }
+            //    }
+            //    int[] index = new int[] { index1, index2 };
+            //    return index;
+            //}
             /// <summary>
             /// Gets an indexes of a minimum element of the given array
             /// </summary>
             /// <param name="array">given two-dimensional square array</param>
             /// <returns>returns indexes of a minimum element as a one-dimensional array</returns>
-            public int[] GetIndexOfMinElement(int[,] array)  //միգուցե ստանա էլեմենտ...
-            {
-                int index1 = 0;
-                int index2 = 0;
-                int min = array[0, 0];
-                for (int i = 0; i < array.GetLength(0); i++)
-                {
-                    for (int j = 0; j < array.GetLength(1); j++)
-                    {
-                        if (array[i, j] < min)
-                        {
-                            min = array[i, j];
-                            index1 = i;
-                            index2 = j;
-                        }
-                    }
-                }
-                int[] index = new int[] { index1, index2 };
-                return index;
-            }
+            //public int[] GetIndexOfMinElement(int[,] array)  //միգուցե ստանա էլեմենտ...
+            //{
+            //    int index1 = 0;
+            //    int index2 = 0;
+            //    int min = array[0, 0];
+            //    for (int i = 0; i < array.GetLength(0); i++)
+            //    {
+            //        for (int j = 0; j < array.GetLength(1); j++)
+            //        {
+            //            if (array[i, j] < min)
+            //            {
+            //                min = array[i, j];
+            //                index1 = i;
+            //                index2 = j;
+            //            }
+            //        }
+            //    }
+            //    int[] index = new int[] { index1, index2 };
+            //    return index;
+            //}
             /// <summary>
             /// Swaps maximum and minimum element of the given array
             /// </summary>
@@ -242,9 +288,9 @@ namespace MatrixClass
             /// </summary>
             /// <param name="str">given any string</param>
             /// <param name="value">given any Int32 array</param>
-            public void Print(string str, int[] value)  
+            public void Print(string str, int value1, int value2)
             {
-                Console.WriteLine($"{str}{value[0]} {value[1]}");
+                Console.WriteLine($"{str} {value1}, {value2}");
             }
             /// <summary>
             /// Prints a two-dimensional array elements in console
