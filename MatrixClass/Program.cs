@@ -6,8 +6,11 @@ namespace MatrixClass
     {
         static void Main(string[] args)
         {
+            ArrayManager arrManager = new ArrayManager();
+            PrintManager prntManager = new PrintManager();
+
             Console.WriteLine("Please enter height for array: ");
-            int height = int.Parse(Console.ReadLine());
+            arrManager._height = int.Parse(Console.ReadLine());
             
             Console.WriteLine("Please enter width for array: ");
             int width = int.Parse(Console.ReadLine());            
@@ -15,9 +18,7 @@ namespace MatrixClass
             Console.WriteLine("Enter MAX value for random number: ");
             int rndMax = int.Parse(Console.ReadLine());
 
-            ArrayManager arrManager = new ArrayManager();
-            PrintManager prntManager = new PrintManager();
-            int[,] matrix = arrManager.CreateArray(height, width, rndMax);
+            int[,] matrix = arrManager.CreateArray();
             prntManager.Print(matrix);
             Console.WriteLine(string.Empty);
             int[] diagonal = arrManager.GetDiagonal(matrix);
@@ -38,7 +39,10 @@ namespace MatrixClass
             prntManager.Print("Minimum element indexes is ", arrManager.GetIndexOne(matrix, arrManager.GetMin(matrix)), arrManager.GetIndexTwo(matrix, arrManager.GetMin(matrix)));
             //Console.WriteLine($"Maximum is {GetMax(matrix)}");
 
-            int[,] arr = arrManager.Swap(matrix, arrManager.GetMax(matrix), arrManager.GetMin(matrix));
+            arrManager._element1 = arrManager.GetMax(matrix);
+            arrManager._element2 = arrManager.GetMin(matrix);
+
+            int[,] arr = arrManager.Swap(matrix);
             prntManager.Print(arr);
             Console.WriteLine();
 
@@ -51,24 +55,28 @@ namespace MatrixClass
     /// </summary>
     public class ArrayManager
     {
+        public int _width;
+        public int _height;
+        public int _rndMax;
+
+        public int _element1;
+        public int _element2;
+
         /// <summary>
         /// Creates a two-dimensional array with user-specified dimensions 
         /// and with Int32 elements that are randomly generated and less than 
         /// the specified maximum value    
         /// </summary>
-        /// <param name="width">First dimension of array</param>
-        /// <param name="height">Second dimension of array</param>
-        /// <param name="rndMax">specified maximum value for random elements</param>
         /// <returns>returns two-dimensional array with Int32 values</returns>
-        public int[,] CreateArray(int width, int height, int rndMax)
+        public int[,] CreateArray()
         {
             Random rnd = new Random();
-            int[,] matrix = new int[width, height];
-            for (int i = 0; i < width; i++)
+            int[,] matrix = new int[_width, _height];
+            for (int i = 0; i < _width; i++)
             {
-                for (int j = 0; j < height; j++)
+                for (int j = 0; j < _height; j++)
                 {
-                    matrix[i, j] = rnd.Next(rndMax);
+                    matrix[i, j] = rnd.Next(_rndMax);
                 }
             }
             return matrix;
@@ -211,16 +219,14 @@ namespace MatrixClass
         /// Swaps a given two elements of the given two-dimensional Int32 array
         /// </summary>
         /// <param name="array">given any array</param>
-        /// <param name="element1">given any Int32 value</param>
-        /// <param name="element2">given any Int32 value</param>
         /// <returns>returns new two dimensional Int32 array with swapped elements</returns>
-        public int[,] Swap(int[,] array, int element1, int element2)
+        public int[,] Swap(int[,] array)
         {
             int[,] arr = (int[,])array.Clone();
-            int el1IndexOne = GetIndexOne(arr, element1);
-            int el1IndexTwo = GetIndexTwo(arr, element1);
-            int el2IndexOne = GetIndexOne(arr, element2);
-            int el2IndexTwo = GetIndexTwo(arr, element2);
+            int el1IndexOne = GetIndexOne(arr, _element1);
+            int el1IndexTwo = GetIndexTwo(arr, _element1);
+            int el2IndexOne = GetIndexOne(arr, _element2);
+            int el2IndexTwo = GetIndexTwo(arr, _element2);
 
             int temp = arr[el1IndexOne, el1IndexTwo];
             arr[el1IndexOne, el1IndexTwo] = arr[el2IndexOne, el2IndexTwo];
@@ -279,8 +285,5 @@ namespace MatrixClass
                 Console.Write($"{array[i]}\t");
             }
         }
-
     }
-
-
 }
