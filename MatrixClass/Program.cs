@@ -56,9 +56,7 @@ namespace MatrixClass
             Console.ReadKey();
         }
     }
-    /// <summary>
-    /// 
-    /// </summary>
+    
     public class ArrayManager
     {
         public int _width;
