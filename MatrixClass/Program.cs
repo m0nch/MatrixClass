@@ -238,8 +238,6 @@ namespace MatrixClass
             }
             return min;
         }
-
-
     }
 
     public class PrintManager
